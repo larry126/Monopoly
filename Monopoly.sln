@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project Demo", "Project Demo\Project Demo.csproj", "{4A99CA27-E594-4EA2-8753-EB464E384714}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monopoly.Config", "Monopoly.Config\Monopoly.Config.csproj", "{0CEE18D6-C216-4FBC-BF3A-E2D9922E1689}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Test", "Project.Test\Project.Test.csproj", "{202CA893-C1C2-4FF7-A659-881A5B433653}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monopoly.Consol", "Monopoly.Consol\Monopoly.Consol.csproj", "{4A99CA27-E594-4EA2-8753-EB464E384714}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Model", "Project.Model\Project.Model.csproj", "{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monopoly.Model", "Monopoly.Model\Monopoly.Model.csproj", "{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Config", "ClassLibrary1\Project.Config.csproj", "{0CEE18D6-C216-4FBC-BF3A-E2D9922E1689}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monopoly.Test", "Monopoly.Test\Monopoly.Test.csproj", "{202CA893-C1C2-4FF7-A659-881A5B433653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4A99CA27-E594-4EA2-8753-EB464E384714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A99CA27-E594-4EA2-8753-EB464E384714}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A99CA27-E594-4EA2-8753-EB464E384714}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A99CA27-E594-4EA2-8753-EB464E384714}.Release|Any CPU.Build.0 = Release|Any CPU
-		{202CA893-C1C2-4FF7-A659-881A5B433653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{202CA893-C1C2-4FF7-A659-881A5B433653}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{202CA893-C1C2-4FF7-A659-881A5B433653}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{202CA893-C1C2-4FF7-A659-881A5B433653}.Release|Any CPU.Build.0 = Release|Any CPU
-		{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0CEE18D6-C216-4FBC-BF3A-E2D9922E1689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CEE18D6-C216-4FBC-BF3A-E2D9922E1689}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CEE18D6-C216-4FBC-BF3A-E2D9922E1689}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CEE18D6-C216-4FBC-BF3A-E2D9922E1689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A99CA27-E594-4EA2-8753-EB464E384714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A99CA27-E594-4EA2-8753-EB464E384714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A99CA27-E594-4EA2-8753-EB464E384714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A99CA27-E594-4EA2-8753-EB464E384714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{202CA893-C1C2-4FF7-A659-881A5B433653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{202CA893-C1C2-4FF7-A659-881A5B433653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{202CA893-C1C2-4FF7-A659-881A5B433653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{202CA893-C1C2-4FF7-A659-881A5B433653}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

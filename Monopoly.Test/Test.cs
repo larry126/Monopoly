@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Project.Test
+namespace Monopoly.Test
 {
 	[TestClass]
-	public class UnitTest1
+	public class Test
 	{
 		[TestMethod]
 		public void TestMethod1()

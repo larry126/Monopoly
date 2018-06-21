@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monopoly.Model;
 
-namespace Project.Model
+namespace Monopoly.Config
 {
-	public class Card
-	{
-
+	public class Stowe
+    {
 	}
 }

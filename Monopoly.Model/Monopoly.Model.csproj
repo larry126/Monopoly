@@ -7,8 +7,8 @@
     <ProjectGuid>{065C03E8-E26C-41E1-A379-87F8D0B6A8A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Project.Model</RootNamespace>
-    <AssemblyName>Project.Model</AssemblyName>
+    <RootNamespace>Monopoly.Model</RootNamespace>
+    <AssemblyName>Monopoly.Model</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project.Config;
+using Monopoly.Config;
+using Monopoly.Model;
 
-namespace Project.Model
+namespace Monopoly.Consol
 {
 	class Program
 	{

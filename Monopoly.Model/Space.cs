@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Model
+namespace Monopoly.Model
 {
-	public class Mechanic : Space
+	public abstract class Space
 	{
+		public string Name { get; protected set; }
 
-		public Mechanic(string name) : base(name)
+		public Space(string name)
 		{
 			Name = name;
 		}
-
 	}
 }

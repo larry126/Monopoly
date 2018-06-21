@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Model
+namespace Monopoly.Model
 {
-	public class Railway : Property
+	public class Mechanic : Space
 	{
-		public Railway(string name, int price) : base(name, price)
+
+		public Mechanic(string name) : base(name)
 		{
 			Name = name;
-			Price = price;
 		}
+
 	}
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project.Model;
+using Monopoly.Model;
 
-namespace Project.Config
+namespace Monopoly.Config
 {
 	public class DefaultSpaces : ISpaces
 	{

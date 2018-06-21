@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project.Model
+namespace Monopoly.Model
 {
 	public abstract class Property : Space
 	{
@@ -17,6 +17,6 @@ namespace Project.Model
 			Price = price;
 		}
 
-		public abstract void PayRent();
+//		public abstract void PayRent();
 	}
 }
