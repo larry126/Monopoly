@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project.Config;
 
 namespace Project.Model
 {
-	class Program
+	public enum Colours
 	{
-		private static Dice dice = new Dice();
+		Brown, LightBlue, Purple, Orange, Red, Yellow, Green, DarkBlue
+	}
 
-		static void Main(string[] args)
-		{
-			Console.ReadKey();
-		}
+	public enum TypeOfLottery
+	{
+		CommunityChest, Chance
 	}
 }

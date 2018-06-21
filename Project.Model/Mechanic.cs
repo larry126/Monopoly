@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project.Config;
 
 namespace Project.Model
 {
-	class Program
+	public class Mechanic : Space
 	{
-		private static Dice dice = new Dice();
 
-		static void Main(string[] args)
+		public Mechanic(string name) : base(name)
 		{
-			Console.ReadKey();
+			Name = name;
 		}
+
 	}
 }

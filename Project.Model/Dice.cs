@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project.Config;
 
 namespace Project.Model
 {
-	class Program
+	public class Dice
 	{
-		private static Dice dice = new Dice();
+		private static Random dice = new Random();
 
-		static void Main(string[] args)
+		public int Roll()
 		{
-			Console.ReadKey();
+			return dice.Next(1, 7);
 		}
 	}
 }

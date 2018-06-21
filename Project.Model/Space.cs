@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project.Config;
 
 namespace Project.Model
 {
-	class Program
+	public abstract class Space
 	{
-		private static Dice dice = new Dice();
+		public string Name { get; protected set; }
 
-		static void Main(string[] args)
+		public Space(string name)
 		{
-			Console.ReadKey();
+			Name = name;
 		}
 	}
 }

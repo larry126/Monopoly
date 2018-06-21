@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project.Config;
 
 namespace Project.Model
 {
-	class Program
+	public class Railway : Property
 	{
-		private static Dice dice = new Dice();
-
-		static void Main(string[] args)
+		public Railway(string name, int price) : base(name, price)
 		{
-			Console.ReadKey();
+			Name = name;
+			Price = price;
 		}
 	}
 }
