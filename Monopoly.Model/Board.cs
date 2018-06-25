@@ -12,17 +12,25 @@ namespace Monopoly.Model
 
 		public Board(ISpaces ispaces)
 		{
-			spaces = ispaces.Spaces();
+			spaces = ispaces.GetSpaces();
 		}
 
-		public void MovePlayer(Player player, int squares)
+
+
+		public void MovePlayerBy(Player player, int squares)
 		{
+			int previousLocation = player.Location;
 			player.Location = (player.Location + squares) % (spaces.Count() + 1);
+			if (squares > 0 && previousLocation > player.Location)
+			{
+
+			}
+			//spaces[player.Location].LandOn(player)
 		}
 
-		public void MovePlayerTo(Player player, int destination, bool GoToJail = false)
+		public void MovePlayerTo(Player player, int destination, bool passGO = false, bool GoToJail = false)
 		{
-
+			player.Location = destination;
 		}
 	}
 }

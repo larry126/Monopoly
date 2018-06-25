@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Model
 {
-	public interface ISpaces
+	public interface IDice
 	{
-		Space[] GetSpaces();
-	}
-	public interface IRules
-	{
-		bool AuctionIfNotBuied { get; set; }
+		int Roll();
 	}
 }

@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="CheatDice.cs" />
+    <Compile Include="ICopy.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="IConfig.cs" />
@@ -53,6 +55,7 @@
     <Compile Include="Railway.cs" />
     <Compile Include="Regular.cs" />
     <Compile Include="Space.cs" />
+    <Compile Include="StaticFunctions.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>

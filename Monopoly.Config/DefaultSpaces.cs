@@ -9,7 +9,7 @@ namespace Monopoly.Config
 {
 	public class DefaultSpaces : ISpaces
 	{
-		public Space[] Spaces()
+		public Space[] GetSpaces()
 		{
 			Space[] board = new Space[40];
 			board[0] = new Mechanic("Start");

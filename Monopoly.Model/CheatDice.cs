@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Model
 {
-	public interface ISpaces
+	public class CheatDice : IDice
 	{
-		Space[] GetSpaces();
-	}
-	public interface IRules
-	{
-		bool AuctionIfNotBuied { get; set; }
+		private int i=-1;
+
+		public int Roll()
+		{
+			i++;
+			return i % 6 + 1;
+		}
 	}
 }
