@@ -20,5 +20,26 @@ namespace Monopoly.Model
 			Name = name;
 			Money = money;
 		}
+
+		public int GetTotalMoney()
+		{
+			int value = Money;
+
+			foreach (var prop in Properties)
+			{
+				int? numberOfHouses = prop.Houses;
+				Colours? groupOfProperty = prop.Group;
+
+				StaticFunctions f = new StaticFunctions();
+
+				if (numberOfHouses != null && groupOfProperty != null )
+				{
+					value = value + (int)numberOfHouses *  f.GetHousePrices()[(int)groupOfProperty]/2;
+				}
+
+				value = value + prop.Price / 2;		}
+
+			return 0;
+		}
 	}
 }

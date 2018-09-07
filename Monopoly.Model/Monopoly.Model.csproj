@@ -43,6 +43,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CheatDice.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="ICopy.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Enums.cs" />

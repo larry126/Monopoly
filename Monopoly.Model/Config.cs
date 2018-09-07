@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Model
 {
-	public interface ISpaces
+	public class Config
 	{
-		Space[] GetSpaces();
-	}
-	public interface IRules
-	{
+		ISpaces ispaces;
+
+		IRules irules;
+
+		Space[] Spaces = 
+
 		bool AuctionIfNotBuied();
 
 		int[] GetHousePrices();

@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Rules.cs" />
+    <Compile Include="DefaultRules.cs" />
     <Compile Include="StoweSpaces.cs" />
     <Compile Include="DefaultSpaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

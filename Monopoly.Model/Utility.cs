@@ -13,5 +13,15 @@ namespace Monopoly.Model
 			Name = name;
 			Price = price;
 		}
+
+		public override bool CanPlayerPerformLandOnProcedure(Player player)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void PerformLandOnProcedure(Player player)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

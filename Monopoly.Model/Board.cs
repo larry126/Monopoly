@@ -15,7 +15,10 @@ namespace Monopoly.Model
 			spaces = ispaces.GetSpaces();
 		}
 
-
+		public void MovePlayer(Player player, int squares)
+		{
+			player.Location = (player.Location + squares) % (spaces.Count() + 1);
+		}
 
 		public void MovePlayerBy(Player player, int squares)
 		{

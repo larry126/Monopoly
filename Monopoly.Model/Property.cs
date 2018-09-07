@@ -10,13 +10,13 @@ namespace Monopoly.Model
 	{
 		public int Price { get; set; }
 		public Player Owner { get; set; }
+		public int? Houses { get; set; }
+		public Colours? Group { get; set; }
 
 		public Property(string name, int price) : base(name)
 		{
 			Name = name;
 			Price = price;
 		}
-
-//		public abstract void PayRent();
 	}
 }

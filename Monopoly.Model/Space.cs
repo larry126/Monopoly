@@ -14,5 +14,9 @@ namespace Monopoly.Model
 		{
 			Name = name;
 		}
+
+		public abstract bool CanPlayerPerformLandOnProcedure(Player player);
+
+		public abstract void PerformLandOnProcedure(Player player);
 	}
 }

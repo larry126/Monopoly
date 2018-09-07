@@ -8,20 +8,22 @@ namespace Monopoly.Model
 {
 	public class Regular : Property
 	{
-		int HousePrice { get; set; }
-		int Houses { get; set; } = 0;
-		Colours Group { get; }
-
 		public Regular(string name, int price, Colours group) : base(name, price)
 		{
 			Name = name;
 			Price = price;
 			Group = group;
+			Houses = 0;
 		}
 
-		public void PayRent(Player payer)
+		public override bool CanPlayerPerformLandOnProcedure(Player player)
 		{
+			throw new NotImplementedException();
+		}
 
+		public override void PerformLandOnProcedure(Player player)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
