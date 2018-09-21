@@ -13,7 +13,7 @@ namespace Monopoly.Model
 		public int Location = 0;
 		public bool Bankruptcy = false;
 		public bool Jailed = false;
-		List<Property> Properties = new List<Property>();
+		public List<Property> Properties = new List<Property>();
 
 		public Player(string name, int money)
 		{
@@ -27,19 +27,31 @@ namespace Monopoly.Model
 
 			foreach (var prop in Properties)
 			{
-				int? numberOfHouses = prop.Houses;
-				Colours? groupOfProperty = prop.Group;
+//				int? numberOfHouses = prop.HouseCount;
 
-				StaticFunctions f = new StaticFunctions();
+//				if (numberOfHouses != null)
+//				{
+//					value = value + (int)numberOfHouses * (int)prop.HousePrice / 2;
+//				}
 
-				if (numberOfHouses != null && groupOfProperty != null )
-				{
-					value = value + (int)numberOfHouses *  f.GetHousePrices()[(int)groupOfProperty]/2;
-				}
+				value = value + prop.Price / 2;
+			}
 
-				value = value + prop.Price / 2;		}
+			return value;
+		}
 
-			return 0;
+		public bool[] IsAbleToPay(int cost)
+		{
+			bool[] ableToPay = new bool[2] { false, false};
+			if (Money > 0)
+			{
+				ableToPay[0] = true;
+			}
+			if (GetTotalMoney() > cost)
+			{
+				ableToPay[1] = true;
+			}
+			return ableToPay;
 		}
 	}
 }

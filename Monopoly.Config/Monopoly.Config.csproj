@@ -40,16 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultRules.cs" />
-    <Compile Include="StoweSpaces.cs" />
-    <Compile Include="DefaultSpaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Monopoly.Model\Monopoly.Model.csproj">
-      <Project>{065c03e8-e26c-41e1-a379-87f8d0b6a8a8}</Project>
-      <Name>Monopoly.Model</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

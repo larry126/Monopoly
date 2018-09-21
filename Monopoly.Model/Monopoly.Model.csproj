@@ -44,7 +44,6 @@
     <Compile Include="Card.cs" />
     <Compile Include="CheatDice.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="ICopy.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="IConfig.cs" />
@@ -56,11 +55,18 @@
     <Compile Include="Railway.cs" />
     <Compile Include="Regular.cs" />
     <Compile Include="Space.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="StaticFunctions.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Monopoly.Config\Monopoly.Config.csproj">
+      <Project>{0cee18d6-c216-4fbc-bf3a-e2d9922e1689}</Project>
+      <Name>Monopoly.Config</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -12,12 +12,5 @@ namespace Monopoly.Model
 
 		IRules irules;
 
-		Space[] Spaces = 
-
-		bool AuctionIfNotBuied();
-
-		int[] GetHousePrices();
-
-		int GetTotalHouseTokens();
 	}
 }

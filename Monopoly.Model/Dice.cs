@@ -12,7 +12,14 @@ namespace Monopoly.Model
 
 		public int Roll()
 		{
-			return dice.Next(1, 7);
+			Globals.LastRoll = dice.Next(1, 7);
+			return Globals.LastRoll;
+		}
+
+		public int RollTwice()
+		{
+			Globals.LastRoll = Roll() + Roll();
+			return Globals.LastRoll;
 		}
 	}
 }

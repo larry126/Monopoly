@@ -3,35 +3,28 @@
   <Class Name="Monopoly.Model.Player" Collapsed="true">
     <Position X="4.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAASQAAAAAAAAAABAAIAAAQAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <HashCode>AAASQAAAAAAAAAABAAIAAAQEAAAABAAAAAAAAAACAAA=</HashCode>
       <FileName>Player.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Monopoly.Model.Regular" Collapsed="true">
-    <Position X="4.5" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Regular.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Monopoly.Model.Space" Collapsed="true">
     <Position X="4.25" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQIAACAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAACAAAAIAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Space.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Monopoly.Model.Property" Collapsed="true">
     <Position X="6.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAECAAQAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <HashCode>AAAAAOCAAQCAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>Property.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Monopoly.Model.Railway" Collapsed="true">
     <Position X="6.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Railway.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -52,7 +45,7 @@
   <Class Name="Monopoly.Model.Utility" Collapsed="true">
     <Position X="8" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAACAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -64,10 +57,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Monopoly.Model.Board" Collapsed="true">
-    <Position X="8" Y="6.75" Width="1.5" />
+    <Position X="8" Y="6.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAAgIAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <HashCode>IAAAAAgAAAAgIAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>Board.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Monopoly.Model.Regular" Collapsed="true">
+    <Position X="4.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAKAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Regular.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Microsoft YaHei UI" Size="9" />

@@ -8,11 +8,11 @@ namespace Monopoly.Model
 {
 	public class Board
 	{
-		private Space[] spaces { get; set; }
+		public static Space[] spaces { get; private set; }
 
-		public Board(ISpaces ispaces)
+		public Board()
 		{
-			spaces = ispaces.GetSpaces();
+			spaces = Globals.DefaultBoard;
 		}
 
 		public void MovePlayer(Player player, int squares)
@@ -28,7 +28,6 @@ namespace Monopoly.Model
 			{
 
 			}
-			//spaces[player.Location].LandOn(player)
 		}
 
 		public void MovePlayerTo(Player player, int destination, bool passGO = false, bool GoToJail = false)

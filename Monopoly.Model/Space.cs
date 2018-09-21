@@ -15,8 +15,10 @@ namespace Monopoly.Model
 			Name = name;
 		}
 
-		public abstract bool CanPlayerPerformLandOnProcedure(Player player);
+		public abstract List<int> GetLandOnActions(Player player);
 
-		public abstract void PerformLandOnProcedure(Player player);
+		public abstract bool[] CanPlayerPerformAction(Player player, int action);
+
+		public abstract void PerformAction(Player player, int action);
 	}
 }
