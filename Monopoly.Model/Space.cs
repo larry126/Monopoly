@@ -8,17 +8,22 @@ namespace Monopoly.Model
 {
 	public abstract class Space
 	{
-		public string Name { get; protected set; }
+		protected string _name;
+		public string Name { get => _name; set => _name = value; }
 
-		public Space(string name)
+		protected GameState _gameState;
+		public GameState GameState { get => _gameState; set => _gameState = value; }
+
+		public Space(GameState gameState, string name)
 		{
-			Name = name;
+			_gameState = gameState;
+			_name = name;
 		}
 
-		public abstract List<int> GetLandOnActions(Player player);
+		public abstract List<LandOnActions> GetLandOnActions(Player player);
 
-		public abstract bool[] CanPlayerPerformAction(Player player, int action);
+		public abstract bool CanPlayerPerformAction(Player player, LandOnActions action);
 
-		public abstract void PerformAction(Player player, int action);
+		public abstract void PerformAction(Player player, LandOnActions action);
 	}
 }

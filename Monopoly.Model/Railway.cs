@@ -8,43 +8,35 @@ namespace Monopoly.Model
 {
 	public class Railway : Property
 	{
-		public Railway(string name, int price) : base(name, price)
+		public Railway(GameState gameState, string name, int price = 200) : base(gameState, name, price)
 		{
-			Name = name;
-			Price = 200;
+			_gameState = gameState;
+			_name = name;
+			Price = price;
 		}
 
 		public override int GetRent()
 		{
-			int railwaysOwned = Owner.Properties.FindAll(p => p.GetType() == typeof(Railway)).Count;
+			int railwaysOwned = _owner.OwnedProperties.FindAll(p => p.GetType() == typeof(Railway)).Count;
 			return 25 * (int)Math.Pow(2, railwaysOwned - 1);
 		}
 
-		public override bool[] CanPlayerPerformAction(Player player, int action)
+		public override bool CanPlayerPerformAction(Player player, LandOnActions action)
 		{
-			if (action == 0)
+			if (action == LandOnActions.Buy)
 			{
-				return player.IsAbleToPay(Price);
+				return player.IsAbleToAfford(Price);
 			}
-			else if (action == 1)
+			else if (action == LandOnActions.Rent)
 			{
-				return player.IsAbleToPay(GetRent());
+				return player.IsAbleToAfford(GetRent());
 			}
-			return new bool[] { false, false };
+			return false;
 		}
 
-		public override void PerformAction(Player player, int action)
+		public override bool CanBeMortgaged()
 		{
-			if (action == 0)
-			{
-				player.Money = player.Money - Price;
-				Owner = player;
-				player.Properties.Add(this);
-			}
-			else if (action == 1)
-			{
-				player.Money = player.Money - GetRent();
-			}
+			return this.MortgageState == false;
 		}
 	}
 }

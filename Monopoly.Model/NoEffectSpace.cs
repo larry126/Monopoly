@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Model
 {
-	public class Lottery : Space
+	public class NoEffectSpace : Space
 	{
-		public Lottery(GameState gameState, string name,TypeOfLottery type) : base(gameState, name)
+		public NoEffectSpace(GameState gameState, string name) : base(gameState, name)
 		{
 			_gameState = gameState;
 			_name = name;
@@ -21,12 +21,9 @@ namespace Monopoly.Model
 
 		public override List<LandOnActions> GetLandOnActions(Player player)
 		{
-			return new List<LandOnActions> { 0 };
+			return null;
 		}
 
-		public override void PerformAction(Player player, LandOnActions action)
-		{
-			throw new NotImplementedException();
-		}
+		public override void PerformAction(Player player, LandOnActions action){}
 	}
 }

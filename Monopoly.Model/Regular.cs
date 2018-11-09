@@ -12,16 +12,17 @@ namespace Monopoly.Model
 		private int _housePrice;
 		public int HousePrice { get => _housePrice; set => _housePrice = value; }
 		private int _houseCount;
-		public int HouseCount { get => _houseCount; set => _houseCount = value; }
+		public int HouseCount { get => _houseCount; }
 		private Colours _group;
 		public Colours Group { get => _group; set => _group = value; }
 
-		public Regular(string name, int price, Colours group, int baseRent, int house1, int house2, int house3, int house4, int hotel) : base(name, price)
+		public Regular(GameState gameState, string name, int price, Colours group, int baseRent, int house1, int house2, int house3, int house4, int hotel) : base(gameState, name, price)
 		{
-			Name = name;
+			_gameState = gameState;
+			_name = name;
 			Price = price;
-			Group = group;
-			HouseCount = 0;
+			_group = group;
+			_houseCount = 0;
 			HousePrice = GetHousePrices()[group];
 			Rents[0] = baseRent;
 			Rents[1] = house1;
@@ -45,36 +46,39 @@ namespace Monopoly.Model
 			return housePrices;
 		}
 
+		public void BuildHouses(int value)
+		{
+			_owner.PayMoney(_housePrice * value);
+			_houseCount = _houseCount + value;
+		}
+
+		public void SellHouses(int value)
+		{
+			_owner.GainMoney(_housePrice / 2 * value);
+			_houseCount = _houseCount - value;
+		}
+
 		public override int GetRent()
 		{
 			return Rents[HouseCount];
 		}
 
-		public override void PerformAction(Player player, int action)
+		public override bool CanPlayerPerformAction(Player player, LandOnActions action)
 		{
-			if (action == 0)
+			if (action == LandOnActions.Buy)
 			{
-				player.Money = player.Money - Price;
-				Owner = player;
-				player.Properties.Add(this);
+				return player.IsAbleToAfford(Price);
 			}
-			else if (action == 1)
+			else if (action == LandOnActions.Rent)
 			{
-				player.Money = player.Money - GetRent();
+				return player.IsAbleToAfford(GetRent());
 			}
+			return false;
 		}
 
-		public override bool[] CanPlayerPerformAction(Player player, int action)
+		public override bool CanBeMortgaged()
 		{
-			if (action == 0)
-			{
-				return player.IsAbleToPay(Price);
-			}
-			else if (action == 1)
-			{
-				return player.IsAbleToPay(GetRent());
-			}
-			return new bool[] { false, false };
+			return this.MortgageState == false && this._houseCount == 0;
 		}
 	}
 }

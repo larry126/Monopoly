@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Model
 {
-	public class Dice
+	public class Dice : IDice
 	{
 		private static Random dice = new Random();
+		private GameState _gameState;
 
-		public int Roll()
+		public Dice(GameState gameState)
 		{
-			Globals.LastRoll = dice.Next(1, 7);
-			return Globals.LastRoll;
+			_gameState = gameState;
 		}
 
-		public int RollTwice()
+		public int Roll(int noOfDice = 2)
 		{
-			Globals.LastRoll = Roll() + Roll();
-			return Globals.LastRoll;
+			_gameState.LastRoll = noOfDice == 1 ? dice.Next(1, 7) : (dice.Next(1, 7) + Roll(noOfDice - 1));
+			return _gameState.LastRoll;
 		}
 	}
 }

@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Model
 {
-	public class CheatDice
+	public class CheatDice : IDice
 	{
-		private int i = -1;
+		int value;
+		private GameState _gameState;
 
-		public int Roll()
+		public CheatDice(GameState gameState, int v1)
 		{
-			i++;
-			Globals.LastRoll = i % 6 + 1;
-			return Globals.LastRoll;
+			_gameState = gameState;
+			value = v1;
 		}
 
-		public int RollTwice()
+		public int Roll(int times = 0)
 		{
-			Globals.LastRoll = Roll() + Roll();
-			return Globals.LastRoll;
+			_gameState.LastRoll = value;
+			return _gameState.LastRoll;
 		}
 	}
 }

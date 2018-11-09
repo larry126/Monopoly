@@ -40,23 +40,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Board.cs" />
+    <Compile Include="BotPlayer.cs" />
+    <Compile Include="IDice.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CheatDice.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="IConfig.cs" />
-    <Compile Include="Mechanic.cs" />
+    <Compile Include="Tax.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Lottery.cs" />
+    <Compile Include="NoEffectSpace.cs" />
+    <Compile Include="GoToJail.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Railway.cs" />
     <Compile Include="Regular.cs" />
     <Compile Include="Space.cs" />
-    <Compile Include="Globals.cs" />
-    <Compile Include="StaticFunctions.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +69,9 @@
       <Project>{0cee18d6-c216-4fbc-bf3a-e2d9922e1689}</Project>
       <Name>Monopoly.Config</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DefaultGameBoard.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

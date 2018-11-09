@@ -8,29 +8,75 @@ namespace Monopoly.Model
 {
 	public abstract class Property : Space
 	{
-		private int _price;
-		public int Price { get => _price; set => _price = value; }
-		private Player _owner;
-		public Player Owner { get => _owner; set => _owner = value; }
+		protected Player _owner;
+		public int Price { get; protected set; }
+		public bool? MortgageState { get; protected set; } 
 
-		public Property(string name, int price) : base(name)
+		public Property(GameState gameState, string name, int price) : base(gameState, name)
 		{
-			Name = name;
+			_gameState = gameState;
+			_name = name;
 			Price = price;
 		}
 
+		public void Mortgage()
+		{
+			MortgageState = true;
+			_owner.GainMoney(Price / 2);
+		}
+
+		public bool CanMortgageBeLifted()
+		{
+			return this.MortgageState == true && _owner.IsAbleToAfford((int)(Price / 2 * 1.1));
+		}
+
+		public void LiftMortgage()
+		{
+			MortgageState = false;
+			_owner.PayMoney((int)(Price / 2 * 1.1));
+		}
+
+		public bool IsOwner(Player player)
+		{
+			return _owner == player;
+		}
+
+		public void ChangeOwner(Player player)
+		{
+			_owner = player;
+			if (player != null && MortgageState == true)
+			{
+				player.PayMoney((int)(Price * (player.LiftMortgageDecision(this) ? 1 : 0 + 0.1)));
+			}
+		}
+
+		public abstract bool CanBeMortgaged();
+
 		public abstract int GetRent();
 
-		public override List<int> GetLandOnActions(Player player)
+		public override void PerformAction(Player player, LandOnActions action)
 		{
-			List<int> actions = new List<int> { };
-			if (Owner == null)
+			if (action == LandOnActions.Buy)
 			{
-				actions.Add(0);
+				player.PayMoney(Price);
+				_owner = player;
 			}
-			else if (Owner != player)
+			else if (action == LandOnActions.Rent)
 			{
-				actions.Add(1);
+				player.PayMoney(GetRent());
+			}
+		}
+
+		public override List<LandOnActions> GetLandOnActions(Player player)
+		{
+			List<LandOnActions> actions = new List<LandOnActions> { };
+			if (_owner == null)
+			{
+				actions.Add(LandOnActions.Buy);
+			}
+			else if (_owner != player)
+			{
+				actions.Add(LandOnActions.Rent);
 			}
 			return actions;
 		}

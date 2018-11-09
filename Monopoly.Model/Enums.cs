@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +14,15 @@ namespace Monopoly.Model
 	public enum TypeOfLottery
 	{
 		CommunityChest, Chance
+	}
+
+	public enum TypeOfTax
+	{
+		IncomeTax, LuxuryTax
+	}
+
+	public enum LandOnActions
+	{
+		Buy, Rent, GoToJail, Tax
 	}
 }

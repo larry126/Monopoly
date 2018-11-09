@@ -48,7 +48,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
+    <Compile Include="GameTests.cs" />
+    <Compile Include="StaticFunctions.cs" />
+    <Compile Include="FunctionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,10 +60,6 @@
     <ProjectReference Include="..\Monopoly.Config\Monopoly.Config.csproj">
       <Project>{0cee18d6-c216-4fbc-bf3a-e2d9922e1689}</Project>
       <Name>Monopoly.Config</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Monopoly.Consol\Monopoly.Consol.csproj">
-      <Project>{4a99ca27-e594-4ea2-8753-eb464e384714}</Project>
-      <Name>Monopoly.Consol</Name>
     </ProjectReference>
     <ProjectReference Include="..\Monopoly.Model\Monopoly.Model.csproj">
       <Project>{065c03e8-e26c-41e1-a379-87f8d0b6a8a8}</Project>

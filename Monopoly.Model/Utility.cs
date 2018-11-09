@@ -9,43 +9,34 @@ namespace Monopoly.Model
 {
 	public class Utility : Property
 	{
-		public Utility(string name, int price) : base(name, price)
+		public Utility(GameState gameState, string name, int price) : base(gameState, name, price)
 		{
-			Name = name;
+			_gameState = gameState;
+			_name = name;
 			Price = price;
 		}
 
 		public override int GetRent()
 		{
-			int utilitiesOwned = Owner.Properties.FindAll(p => p.GetType() == typeof(Utility)).Count;
-			return Globals.LastRoll * ((utilitiesOwned == 1) ? 4 : 10);
+			int utilitiesOwned = _owner.OwnedProperties.FindAll(p => p.GetType() == typeof(Utility)).Count;
+			return GameState.LastRoll * ((utilitiesOwned == 1) ? 4 : 10);
 		}
 
-		public override void PerformAction(Player player, int action)
+		public override bool CanPlayerPerformAction(Player player, LandOnActions action)
 		{
-			if (action == 0)
+			if (action == LandOnActions.Buy)
 			{
-				player.Money = player.Money - Price;
-				Owner = player;
-				player.Properties.Add(this);
+				return player.IsAbleToAfford(Price);
 			}
-			else if (action == 1)
+			else if (action == LandOnActions.Rent)
 			{
-				player.Money = player.Money - GetRent();
+				return player.IsAbleToAfford(GetRent());
 			}
+			return false;
 		}
-
-		public override bool[] CanPlayerPerformAction(Player player, int action)
+		public override bool CanBeMortgaged()
 		{
-			if (action == 0)
-			{
-				return player.IsAbleToPay(Price);
-			}
-			else if (action == 1)
-			{
-				return player.IsAbleToPay(GetRent());
-			}
-			return new bool[] { false, false };
+			return this.MortgageState == false;
 		}
 	}
 }
