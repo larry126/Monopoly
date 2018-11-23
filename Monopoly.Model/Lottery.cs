@@ -8,7 +8,7 @@ namespace Monopoly.Model
 {
 	public class Lottery : Space
 	{
-		public Lottery(GameState gameState, string name,TypeOfLottery type) : base(gameState, name)
+		public Lottery(GameState gameState, string name, TypeOfLottery type) : base(gameState, name)
 		{
 			_gameState = gameState;
 			_name = name;
@@ -21,7 +21,7 @@ namespace Monopoly.Model
 
 		public override List<LandOnActions> GetLandOnActions(Player player)
 		{
-			return new List<LandOnActions> { 0 };
+			return new List<LandOnActions> { LandOnActions.NoAction };
 		}
 
 		public override void PerformAction(Player player, LandOnActions action)

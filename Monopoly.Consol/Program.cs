@@ -9,13 +9,12 @@ namespace Monopoly.Consol
 {
 	class Program
 	{
-
-
 		static void Main(string[] args)
 		{
+			Console.Write("Monopoly");
 			while (true)
 			{
-				Console.Write("Please enter the number of players:\t");
+				Console.Write("\n\nPlease enter the number of players:\t");
 				string strNumber = Console.ReadLine();
 				int numberOfPlayers;
 				if (int.TryParse(strNumber, out numberOfPlayers) && numberOfPlayers >= 2 && numberOfPlayers <= 8)
@@ -23,12 +22,21 @@ namespace Monopoly.Consol
 					Player[] players = new Player[numberOfPlayers];
 					for (int i = 0; i < players.Length; i++)
 					{
-						Console.Write("Please enter the name of Player " + (i + 1).ToString() + ":\t");
-						players[i] = new ConsolePlayer(Console.ReadLine(), 5000);
+						Console.Write("\nIs Player " + (i + 1).ToString() + " a bot player? \nY/N\t");
+						string botCheck = Console.ReadLine();
+						Console.Write("\nPlease enter Player " + (i + 1).ToString() + "'s name:\t");
+						if (botCheck == "Y")
+						{
+							players[i] = new BotPlayer(Console.ReadLine(), 5000);
+						}
+						else
+						{
+							players[i] = new ConsolePlayer(Console.ReadLine(), 5000);
+						}
 					}
 					Player winner = PlayGame(players);
-					Console.WriteLine("Player " + winner.Name + "is the winner!");
-					Console.WriteLine("Thank to all of you for playing");
+					Console.WriteLine("\n\nPlayer " + winner.Name + "is the winner!");
+					Console.WriteLine("\nThank to all of you for playing");
 					Console.ReadKey();
 					break;
 				}
@@ -46,32 +54,39 @@ namespace Monopoly.Consol
 				if (!currentPlayer.Bankruptcy)
 				{
 					Console.WriteLine("\nTurn " + turn);
-					turn++;
-					while (true)
-					{
-						ShowPlayerStatus(currentPlayer);
-						int phaseState = gameState.MainPhase(realDice);
-						if (phaseState == 1)
-						{
-							gameState.RollDiceProcedure(currentPlayer, realDice);
-						}
-						else if (phaseState == 2)
-						{
-							break;
-						}
-					}
+					ShowPlayerStatus(currentPlayer);
+					gameState.MainPhase(realDice);
+					ShowPlayerStatus(currentPlayer);
 					Console.WriteLine("\n" + currentPlayer.Name + "'s turn ends");
-					Console.WriteLine("Between turns\n");
+					ShowAllPlayersStatus(gameState);
+					Console.WriteLine("\nBetween turns");
 					gameState.BetweenTurns();
+					ShowAllPlayersStatus(gameState);
+					turn++;
 				}
 			}
 			return players.First(p => !p.Bankruptcy);
 		}
 
+		static void ShowAllPlayersStatus(GameState gameState)
+		{
+			foreach (Player p in gameState.AllPlayers)
+			{
+				ShowPlayerStatus(p);
+			}
+		}
+
 		static void ShowPlayerStatus(Player player)
 		{
-			Console.WriteLine("\nPlayer " + player.Name + "'s money:" + player.Money.ToString());
-			Console.WriteLine("Player " + player.Name + "'s properties:");
+			Console.WriteLine("\nPlayer " + player.Name + ":");
+			if (player.Bankruptcy)
+			{
+				Console.WriteLine("Bankrupted");
+				return;
+			}
+			Console.WriteLine("Money:" + player.Money.ToString());
+			Console.WriteLine("Properties No. : " + player.OwnedProperties.Count);
+			Console.WriteLine("Properties:");
 			if (player.OwnedProperties.Count == 0)
 			{
 				Console.WriteLine("N/A");
@@ -80,7 +95,6 @@ namespace Monopoly.Consol
 			{
 				Console.WriteLine(prop.Name);
 			}
-			Console.WriteLine("");
 		}
 	}
 }

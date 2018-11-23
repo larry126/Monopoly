@@ -73,6 +73,7 @@ namespace Monopoly.Model
 			if (_owner == null)
 			{
 				actions.Add(LandOnActions.Buy);
+				actions.Add(LandOnActions.NoAction);
 			}
 			else if (_owner != player)
 			{

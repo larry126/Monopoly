@@ -9,22 +9,24 @@ namespace Monopoly.Model
 {
 	public class GameState
 	{
-		private Player[] players;
+		public Player[] AllPlayers { get; private set; }
 
 		private int _realTurn = 0;
 		public int RealTurn { get => _realTurn; set => _realTurn = value; }
 		private int _lastRoll;
 		public int LastRoll { get => _lastRoll; set => _lastRoll = value; }
 
+		public Phase CurrentPhase { get; private set; }
+
 		public Dictionary<Colours, List<Regular>> PropertiesInGroups { get; private set; }
 		public Space[] CurrentBoard { get; private set; }
 
 		public GameState(Player[] participatePlayers, Space[] board = null)
 		{
-			players = participatePlayers;
-			foreach (Player player in players)
+			AllPlayers = participatePlayers;
+			foreach (Player player in AllPlayers)
 			{
-				player.GameState = this;
+				player.gameState = this;
 			}
 			if (board != null)
 			{
@@ -51,7 +53,7 @@ namespace Monopoly.Model
 
 		public Player GetTurnPlayer()
 		{
-			return players[_realTurn % (players.Length)];
+			return AllPlayers[_realTurn % (AllPlayers.Length)];
 		}
 
 		public void RollDiceStart(IDice dice)
@@ -71,77 +73,9 @@ namespace Monopoly.Model
 			}
 		}
 
-		public int MainPhase(IDice dice)
-		{
-			Player currentPlayer = GetTurnPlayer();
-			int moveMade = currentPlayer.MainPhaseDecision();
-			if (moveMade == 1 && currentPlayer.IsAbleToRoll())
-			{
-				//				RollDiceProcedure(currentPlayer,dice);
-				currentPlayer.Rolled = true;
-				return 1;
-			}
-			else if (moveMade == 1)
-			{
-				return 2;
-			}
-			else if (moveMade == 2)
-			{
-			}
-			else if (moveMade == 3)
-			{
-				Colours? group = currentPlayer.BuildHousesDecision();
-				if (group != null)
-				{
-					currentPlayer.BuildHouses((Colours)group);
-				}
-			}
-			else if (moveMade == 4)
-			{
-				Colours? group = currentPlayer.SellHousesDecision();
-				if (group != null)
-				{
-					currentPlayer.SellHouses((Colours)group);
-				}
-			}
-			else if (moveMade == 5)
-			{
-				Property prop = currentPlayer.MortgagePropertyDecision();
-				if (prop != null)
-				{
-					prop.Mortgage();
-				}
-			}
-			else if (moveMade == 6)
-			{
-				Property prop = currentPlayer.LiftMortgagedPropertyDecision();
-				if (prop != null)
-				{
-					prop.LiftMortgage();
-				}
-			}
-			return 0;
-		}
-
-		public void RollDiceProcedure(Player currentPlayer, IDice dice)
-		{
-			RollDiceStart(dice);
-			Space currentPlayerSpace = currentPlayer.GetLocationSpace();
-			List<LandOnActions> availableActions = currentPlayerSpace.GetLandOnActions(currentPlayer);
-			if (availableActions.Exists(at => (at == LandOnActions.Rent || at == LandOnActions.Tax) && !currentPlayerSpace.CanPlayerPerformAction(currentPlayer, at)))
-			{
-				currentPlayer.Bankrupt();
-				return;
-			}
-			List<LandOnActions> performableActions = availableActions.Where(at => currentPlayerSpace.CanPlayerPerformAction(currentPlayer, at)).ToList();
-			LandOnActions action = currentPlayer.LandOnDecision(performableActions);
-			currentPlayer.sellAndPay(currentPlayerSpace, action);
-			currentPlayerSpace.PerformAction(currentPlayer, action);
-		}
-
 		public bool gameEnd()
 		{
-			return players.Count(p => !p.Bankruptcy) == 1;
+			return AllPlayers.Count(p => !p.Bankruptcy) == 1;
 		}
 
 		private Space[] GetDefaultBoard()
@@ -190,51 +124,165 @@ namespace Monopoly.Model
 			return board;
 		}
 
+		public void MainPhase(IDice dice)
+		{
+			CurrentPhase = Phase.MainPhase;
+			Player currentPlayer = GetTurnPlayer();
+			OpenGameStateActions moveMade = 0;
+			while (moveMade != OpenGameStateActions.End || currentPlayer.IsAbleToRoll())
+			{
+				moveMade = currentPlayer.MainPhaseDecision();
+				switch (moveMade)
+				{
+					case OpenGameStateActions.Roll:
+						if (currentPlayer.IsAbleToRoll())
+						{
+							currentPlayer.Rolled = true;
+							RollDiceProcedure(currentPlayer, dice);
+						}
+						break;
+					case OpenGameStateActions.Trade:
+						break;
+					case OpenGameStateActions.Build:
+						Colours? groupBuild = currentPlayer.BuildHousesDecision();
+						if (groupBuild != null)
+						{
+							currentPlayer.BuildHouses((Colours)groupBuild);
+						}
+						break;
+					case OpenGameStateActions.Sell:
+						Colours? groupSell = currentPlayer.SellHousesDecision();
+						if (groupSell != null)
+						{
+							currentPlayer.SellHouses((Colours)groupSell);
+						}
+						break;
+					case OpenGameStateActions.Mortgage:
+						Property propMortgage = currentPlayer.MortgagePropertyDecision();
+						if (propMortgage != null)
+						{
+							propMortgage.Mortgage();
+						}
+						break;
+					case OpenGameStateActions.LiftMortgage:
+						Property propLift = currentPlayer.LiftMortgagedPropertyDecision();
+						if (propLift != null)
+						{
+							propLift.LiftMortgage();
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
+		public void RollDiceProcedure(Player currentPlayer, IDice dice)
+		{
+			CurrentPhase = Phase.DiceRolledPhase;
+			RollDiceStart(dice);
+			Space currentPlayerSpace = currentPlayer.GetLocationSpace();
+			List<LandOnActions> availableActions = currentPlayerSpace.GetLandOnActions(currentPlayer);
+			if (availableActions.Exists(at => (at == LandOnActions.Rent || at == LandOnActions.Tax) && !currentPlayerSpace.CanPlayerPerformAction(currentPlayer, at)))
+			{
+				currentPlayer.Bankrupt();
+				return;
+			}
+			List<LandOnActions> performableActions = availableActions.Where(at => currentPlayerSpace.CanPlayerPerformAction(currentPlayer, at)).ToList();
+			LandOnActions action = currentPlayer.LandOnDecision(performableActions);
+			if (action != LandOnActions.NoAction)
+			{
+				sellAndPay(currentPlayer, currentPlayerSpace, action);
+				currentPlayerSpace.PerformAction(currentPlayer, action);
+			}
+		}
+
+		public void sellAndPay(Player player, Space space, LandOnActions action)
+		{
+			while (!space.CanPlayerPerformAction(player, action))
+			{
+				OpenGameStateActions moveMade = player.SellAndPayDecision();
+				switch (moveMade)
+				{
+					case OpenGameStateActions.Build:
+						Colours? groupBuild = player.BuildHousesDecision();
+						if (groupBuild != null)
+						{
+							player.BuildHouses((Colours)groupBuild);
+						}
+						break;
+					case OpenGameStateActions.Sell:
+						Colours? groupSell = player.SellHousesDecision();
+						if (groupSell != null)
+						{
+							player.SellHouses((Colours)groupSell);
+						}
+						break;
+					case OpenGameStateActions.Mortgage:
+						Property propMortgage = player.MortgagePropertyDecision();
+						if (propMortgage != null)
+						{
+							propMortgage.Mortgage();
+						}
+						break;
+					case OpenGameStateActions.LiftMortgage:
+						Property propLift = player.LiftMortgagedPropertyDecision();
+						if (propLift != null)
+						{
+							propLift.LiftMortgage();
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
 		public void BetweenTurns()
 		{
-			foreach (Player p in players.SkipWhile(p => p.Bankruptcy == true || p == GetTurnPlayer()))
+			CurrentPhase = Phase.BetweenTurnsPhase;
+			foreach (Player p in AllPlayers.Where(p => !p.Bankruptcy && p != GetTurnPlayer()))
 			{
-				while (true)
+				OpenGameStateActions moveMade = 0;
+				while (moveMade != OpenGameStateActions.End)
 				{
-					int moveMade = p.BetweenTurnsDecision();
-					if (moveMade == 1)
+					moveMade = p.BetweenTurnsDecision();
+					switch (moveMade)
 					{
-						break;
-					}
-					else if (moveMade == 2)
-					{
-					}
-					else if (moveMade == 3)
-					{
-						Colours? group = p.BuildHousesDecision();
-						if (group != null)
-						{
-							p.BuildHouses((Colours)group);
-						}
-					}
-					else if (moveMade == 4)
-					{
-						Colours? group = p.SellHousesDecision();
-						if (group != null)
-						{
-							p.SellHouses((Colours)group);
-						}
-					}
-					else if (moveMade == 5)
-					{
-						Property prop = p.MortgagePropertyDecision();
-						if (prop != null)
-						{
-							prop.Mortgage();
-						}
-					}
-					else if (moveMade == 6)
-					{
-						Property prop = p.LiftMortgagedPropertyDecision();
-						if (prop != null)
-						{
-							prop.LiftMortgage();
-						}
+						case OpenGameStateActions.End:
+							break;
+						case OpenGameStateActions.Trade:
+							break;
+						case OpenGameStateActions.Build:
+							Colours? groupBuild = p.BuildHousesDecision();
+							if (groupBuild != null)
+							{
+								p.BuildHouses((Colours)groupBuild);
+							}
+							break;
+						case OpenGameStateActions.Sell:
+							Colours? groupSell = p.SellHousesDecision();
+							if (groupSell != null)
+							{
+								p.SellHouses((Colours)groupSell);
+							}
+							break;
+						case OpenGameStateActions.Mortgage:
+							Property propMortgage = p.MortgagePropertyDecision();
+							if (propMortgage != null)
+							{
+								propMortgage.Mortgage();
+							}
+							break;
+						case OpenGameStateActions.LiftMortgage:
+							Property propLift = p.LiftMortgagedPropertyDecision();
+							if (propLift != null)
+							{
+								propLift.LiftMortgage();
+							}
+							break;
+						default:
+							break;
 					}
 				}
 			}

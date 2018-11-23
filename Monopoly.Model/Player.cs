@@ -13,11 +13,11 @@ namespace Monopoly.Model
 		protected int LocSeq;
 		public bool Rolled { protected get; set; }
 
-		public GameState GameState { set; get; }
+		public GameState gameState { set; get; }
 		public bool Bankruptcy { get; protected set; }
 		public bool InJail { get; set; }
 
-		public List<Property> OwnedProperties { get => GameState.CurrentBoard.OfType<Property>().Where(p => p.IsOwner(this)).ToList(); }
+		public List<Property> OwnedProperties { get => gameState.CurrentBoard.OfType<Property>().Where(p => p.IsOwner(this)).ToList(); }
 
 		public Player(string name, int money)
 		{
@@ -79,7 +79,7 @@ namespace Monopoly.Model
 
 		public Space GetLocationSpace()
 		{
-			return GameState.CurrentBoard[LocSeq];
+			return gameState.CurrentBoard[LocSeq];
 		}
 
 		public virtual int RollDice(IDice dice, int noOfDice = 2)
@@ -99,7 +99,7 @@ namespace Monopoly.Model
 		public virtual void MoveBy(int squares)
 		{
 			int previousLocation = LocSeq;
-			LocSeq = (LocSeq + squares) % (GameState.CurrentBoard.Count() + 1);
+			LocSeq = (LocSeq + squares) % (gameState.CurrentBoard.Count());
 			if (LocSeq < previousLocation && squares > 0)
 			{
 				Money = Money + 200;
@@ -118,7 +118,7 @@ namespace Monopoly.Model
 
 		public void BuildHouses(Colours colour)
 		{
-			foreach (Regular r in GameState.PropertiesInGroups[colour])
+			foreach (Regular r in gameState.PropertiesInGroups[colour])
 			{
 				r.BuildHouses(1);
 			}
@@ -128,7 +128,7 @@ namespace Monopoly.Model
 		{
 			foreach (KeyValuePair<Colours, int> pair in ownedPropertiesCountInGroups)
 			{
-				List<Regular> regularGroup = GameState.PropertiesInGroups[pair.Key];
+				List<Regular> regularGroup = gameState.PropertiesInGroups[pair.Key];
 				if (regularGroup.Count() == pair.Value)
 				{
 					if (IsAbleToAfford(regularGroup.Sum(rp => rp.HousePrice)) && regularGroup[0].HouseCount < 5)
@@ -145,7 +145,7 @@ namespace Monopoly.Model
 			List<Colours> buildableGroups = new List<Colours> { };
 			foreach (KeyValuePair<Colours, int> pair in ownedPropertiesCountInGroups)
 			{
-				List<Regular> regularGroup = GameState.PropertiesInGroups[pair.Key];
+				List<Regular> regularGroup = gameState.PropertiesInGroups[pair.Key];
 				if (regularGroup.Count() == pair.Value)
 				{
 					if (IsAbleToAfford(regularGroup.Sum(rp => rp.HousePrice)) && regularGroup[0].HouseCount < 5)
@@ -159,7 +159,7 @@ namespace Monopoly.Model
 
 		public void SellHouses(Colours colour)
 		{
-			foreach (Regular r in GameState.PropertiesInGroups[colour])
+			foreach (Regular r in gameState.PropertiesInGroups[colour])
 			{
 				r.SellHouses(1);
 			}
@@ -170,7 +170,7 @@ namespace Monopoly.Model
 			List<Colours> houseSellableGroups = new List<Colours> { };
 			foreach (KeyValuePair<Colours, int> pair in ownedPropertiesCountInGroups)
 			{
-				List<Regular> regularGroup = GameState.PropertiesInGroups[pair.Key];
+				List<Regular> regularGroup = gameState.PropertiesInGroups[pair.Key];
 				if (regularGroup[0].HouseCount > 0)
 				{
 					houseSellableGroups.Add(pair.Key);
@@ -204,8 +204,6 @@ namespace Monopoly.Model
 			}
 			return liftableMortgagedProperties;
 		}
-
-		public abstract int SellAndPayDecision();
 
 		public bool CanSellHouses()
 		{
@@ -246,16 +244,38 @@ namespace Monopoly.Model
 			}
 		}
 
+		protected HashSet<OpenGameStateActions> GetAvailableMoves()
+		{	
+			HashSet<OpenGameStateActions> availableActions = new HashSet<OpenGameStateActions> { gameState.CurrentPhase == Phase.DiceRolledPhase ? 0 : gameState.CurrentPhase == Phase.BetweenTurnsPhase ? OpenGameStateActions.End : IsAbleToRoll() ? OpenGameStateActions.Roll : OpenGameStateActions.End  };
+			if (CanBuild())
+			{
+				availableActions.Add(OpenGameStateActions.Build);
+			}
+			if (CanSellHouses())
+			{
+				availableActions.Add(OpenGameStateActions.Sell);
+			}
+			if (CanMortgageProperties())
+			{
+				availableActions.Add(OpenGameStateActions.Mortgage);
+			}
+			if (CanLiftMortgagedProperties())
+			{
+				availableActions.Add(OpenGameStateActions.LiftMortgage);
+			}
+			return availableActions;
+		}
+
 		//Decision Maker
 		public abstract LandOnActions LandOnDecision(List<LandOnActions> actions);
-		public abstract int MainPhaseDecision();
+		public abstract OpenGameStateActions MainPhaseDecision();
+		public abstract OpenGameStateActions BetweenTurnsDecision();
+		public abstract OpenGameStateActions SellAndPayDecision();
 		public abstract int IncomeTaxDecision();
 		public abstract Colours? BuildHousesDecision();
 		public abstract Colours? SellHousesDecision();
 		public abstract Property MortgagePropertyDecision();
 		public abstract Property LiftMortgagedPropertyDecision();
 		public abstract bool LiftMortgageDecision(Property prop);
-		public abstract int BetweenTurnsDecision();
-		public abstract void sellAndPay(Space space,LandOnActions action);
 	}
 }

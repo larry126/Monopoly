@@ -21,7 +21,7 @@ namespace Monopoly.Model
 
 		public override List<LandOnActions> GetLandOnActions(Player player)
 		{
-			return null;
+			return new List<LandOnActions> { };
 		}
 
 		public override void PerformAction(Player player, LandOnActions action){}

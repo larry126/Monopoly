@@ -26,9 +26,14 @@ namespace Monopoly.Model
 			throw new NotImplementedException();
 		}
 
-		public override int MainPhaseDecision()
+		public override OpenGameStateActions MainPhaseDecision()
 		{
-			throw new NotImplementedException();
+			HashSet<OpenGameStateActions> availableActions = GetAvailableMoves();
+			if (availableActions.Contains(OpenGameStateActions.Roll))
+			{
+				return OpenGameStateActions.Roll;
+			}
+			return OpenGameStateActions.End;
 		}
 
 		public override Property MortgagePropertyDecision()
@@ -41,16 +46,15 @@ namespace Monopoly.Model
 			throw new NotImplementedException();
 		}
 
-
-
-		public override int SellAndPayDecision()
+		public override OpenGameStateActions SellAndPayDecision()
 		{
-			throw new NotImplementedException();
+			return 0;
 		}
 
-		public override int BetweenTurnsDecision()
+		public override OpenGameStateActions BetweenTurnsDecision()
 		{
-			throw new NotImplementedException();
+			HashSet<OpenGameStateActions> availableActions = GetAvailableMoves();
+			return OpenGameStateActions.End;
 		}
 
 		public override bool LiftMortgageDecision(Property prop)
@@ -58,14 +62,9 @@ namespace Monopoly.Model
 			throw new NotImplementedException();
 		}
 
-		public override void sellAndPay(Space space, LandOnActions action)
-		{
-			throw new NotImplementedException();
-		}
-
 		public override LandOnActions LandOnDecision(List<LandOnActions> actions)
 		{
-			throw new NotImplementedException();
+			return actions[0];
 		}
 	}
 }

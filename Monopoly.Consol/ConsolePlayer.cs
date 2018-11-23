@@ -16,37 +16,28 @@ namespace Monopoly.Model
 
 		public override LandOnActions LandOnDecision(List<LandOnActions> actions)
 		{
-			if (actions.Count > 0)
+			if (actions == null || actions.Count == 0)
 			{
-				for (int i = 0; i < actions.Count; i++)
+				return LandOnActions.NoAction;
+			}
+			Console.WriteLine(" ");
+			foreach (LandOnActions action in actions)
+			{
+				Console.WriteLine(actions.IndexOf(action).ToString() + ". " + action);
+			}
+			while (true)
+			{
+				Console.Write("Please choose 1 action to proceed\t");
+				string actionChoice = Console.ReadLine();
+				if (int.TryParse(actionChoice, out int input) && (input < actions.Count))
 				{
-					Console.WriteLine((i + 1) + ". " + actions[i]);
+					return actions[input];
 				}
-				if (actions.Contains(0))
+				else
 				{
-					Console.WriteLine("9. No action");
-				}
-				while (true)
-				{
-					Console.Write("\nPlease choose 1 action to proceed\t");
-					string actionChoice = Console.ReadLine();
-					int input;
-					if (int.TryParse(actionChoice, out input) && (input >= 1 && input <= actions.Count) || (input == 9))
-					{
-						if (input == 9 && actions.Contains(0))
-						{
-							return 0;
-						}
-						input--;
-						return actions[input];
-					}
-					else
-					{
-						Console.WriteLine("\nIncorrect input");
-					}
+					Console.WriteLine("\nIncorrect input");
 				}
 			}
-			return 0;
 		}
 
 		public override int RollDice(IDice dice, int noOfDice = 2)
@@ -59,59 +50,80 @@ namespace Monopoly.Model
 		public override void MoveBy(int squares)
 		{
 			base.MoveBy(squares);
-			Console.WriteLine("You have moved to " + GameState.CurrentBoard[LocSeq].Name + "\n");
+			Console.WriteLine("You have moved to " + gameState.CurrentBoard[LocSeq].Name);
 		}
 
 		public override void MoveTo(int destination, bool passGO = true, bool GoToJail = false)
 		{
 			base.MoveTo(destination, passGO, GoToJail);
-			Console.WriteLine("You have moved to " + GameState.CurrentBoard[LocSeq].Name + "\n");
+			Console.WriteLine("You have moved to " + gameState.CurrentBoard[LocSeq].Name + "\n");
 			if (GoToJail)
 			{
 				Console.WriteLine("You are now in jail\n");
 			}
 		}
 
-		public override int MainPhaseDecision()
+		public override OpenGameStateActions MainPhaseDecision()
 		{
 			while (true)
 			{
-				HashSet<int> availableActions = new HashSet<int> { 1 };
-				Console.WriteLine("Player " + this.Name + ",\n");
-				if (this.IsAbleToRoll())
+				OpenGameStateActions[] availableActions = GetAvailableMoves().ToArray();
+				Console.WriteLine(" ");
+				foreach (OpenGameStateActions act in availableActions)
 				{
-					Console.WriteLine("1. Roll dice");
+					Console.WriteLine(Array.IndexOf(availableActions, act).ToString() + ". " + act);
+				}
+				Console.Write("Player " + Name + ", pick your move:\t");
+				string input = Console.ReadLine();
+				if (int.TryParse(input, out int move) && move < availableActions.Length)
+				{
+					return availableActions[move];
 				}
 				else
 				{
-					Console.WriteLine("1. End");
+					Console.WriteLine("\nIncorrect input");
 				}
-				if (this.CanBuild())
+			}
+		}
+
+		public override OpenGameStateActions SellAndPayDecision()
+		{
+			while (true)
+			{
+				OpenGameStateActions[] availableActions = GetAvailableMoves().ToArray();
+				Console.WriteLine("Player " + Name + ",\n");
+				foreach (OpenGameStateActions act in availableActions)
 				{
-					Console.WriteLine("3. Build House");
-					availableActions.Add(3);
-				}
-				if (this.CanSellHouses())
-				{
-					Console.WriteLine("4. Sell House");
-					availableActions.Add(4);
-				}
-				if (this.CanMortgageProperties())
-				{
-					Console.WriteLine("5. Mortgage property");
-					availableActions.Add(5);
-				}
-				if (this.CanLiftMortgagedProperties())
-				{
-					Console.WriteLine("6. Lift mortgaged property");
-					availableActions.Add(6);
+					Console.WriteLine(Array.IndexOf(availableActions, act).ToString() + ". " + act);
 				}
 				Console.Write("\nPick your move:\t");
 				string input = Console.ReadLine();
-				int move = 0;
-				if (int.TryParse(input, out move) && availableActions.Contains(move))
+				if (int.TryParse(input, out int move) && move < availableActions.Count())
 				{
-					return move;
+					return availableActions[move];
+				}
+			}
+		}
+
+		public override OpenGameStateActions BetweenTurnsDecision()
+		{
+			while (true)
+			{
+				OpenGameStateActions[] availableActions = GetAvailableMoves().ToArray();
+				Console.WriteLine(" ");
+				foreach (OpenGameStateActions act in availableActions)
+				{
+					Console.WriteLine(Array.IndexOf(availableActions, act).ToString() + ". " + act);
+				}
+				Console.Write("Player " + Name + ", pick your move:\t");
+				string input = Console.ReadLine();
+				if (int.TryParse(input, out int move) && move < availableActions.Length)
+				{
+					return availableActions[move];
+				}
+				else
+				{
+					Console.WriteLine("\nIncorrect input");
 				}
 			}
 		}
@@ -223,79 +235,6 @@ namespace Monopoly.Model
 			}
 		}
 
-		public override int SellAndPayDecision()
-		{
-			while (true)
-			{
-				HashSet<int> availableActions = new HashSet<int> { };
-				Console.WriteLine("Player " + this.Name + ",\n");
-				if (this.CanBuild())
-				{
-					Console.WriteLine("1. Build House");
-					availableActions.Add(1);
-				}
-				if (this.CanSellHouses())
-				{
-					Console.WriteLine("2. Sell House");
-					availableActions.Add(2);
-				}
-				if (this.CanMortgageProperties())
-				{
-					Console.WriteLine("3. Mortgage property");
-					availableActions.Add(3);
-				}
-				if (this.CanLiftMortgagedProperties())
-				{
-					Console.WriteLine("4. Lift mortgaged property");
-					availableActions.Add(4);
-				}
-				Console.Write("\nPick your move:\t");
-				string input = Console.ReadLine();
-				int move = 0;
-				if (int.TryParse(input, out move) && availableActions.Contains(move))
-				{
-					return move;
-				}
-			}
-		}
-
-		public override int BetweenTurnsDecision()
-		{
-			while (true)
-			{
-				HashSet<int> availableActions = new HashSet<int> { 1 };
-				Console.WriteLine("Player " + this.Name + ",\n");
-				Console.WriteLine("1. End");
-				if (this.CanBuild())
-				{
-					Console.WriteLine("3. Build House");
-					availableActions.Add(3);
-				}
-				if (this.CanSellHouses())
-				{
-					Console.WriteLine("4. Sell House");
-					availableActions.Add(4);
-				}
-				if (this.CanMortgageProperties())
-				{
-					Console.WriteLine("5. Mortgage property");
-					availableActions.Add(5);
-				}
-				if (this.CanLiftMortgagedProperties())
-				{
-					Console.WriteLine("6. Lift mortgaged property");
-					availableActions.Add(6);
-				}
-				Console.Write("\nPick your move:\t");
-				string input = Console.ReadLine();
-				int move = 0;
-				if (int.TryParse(input, out move) && availableActions.Contains(move))
-				{
-					return move;
-				}
-			}
-		}
-
 		public override bool LiftMortgageDecision(Property prop)
 		{
 			if (prop.CanMortgageBeLifted())
@@ -328,48 +267,6 @@ namespace Monopoly.Model
 			foreach (Property prop in OwnedProperties)
 			{
 				Console.WriteLine(prop.Name);
-			}
-			Console.WriteLine("");
-		}
-
-		public override void sellAndPay(Space space, LandOnActions action)
-		{
-			while (!space.CanPlayerPerformAction(this, action))
-			{
-				ShowPlayerStatus();
-				int moveMade = SellAndPayDecision();
-				if (moveMade == 1)
-				{
-					Colours? group = BuildHousesDecision();
-					if (group != null)
-					{
-						BuildHouses((Colours)group);
-					}
-				}
-				else if (moveMade == 2)
-				{
-					Colours? group = SellHousesDecision();
-					if (group != null)
-					{
-						SellHouses((Colours)group);
-					}
-				}
-				else if (moveMade == 3)
-				{
-					Property prop = MortgagePropertyDecision();
-					if (prop != null)
-					{
-						prop.Mortgage();
-					}
-				}
-				else if (moveMade == 4)
-				{
-					Property prop = LiftMortgagedPropertyDecision();
-					if (prop != null)
-					{
-						prop.LiftMortgage();
-					}
-				}
 			}
 		}
 	}

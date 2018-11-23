@@ -23,6 +23,16 @@ namespace Monopoly.Model
 
 	public enum LandOnActions
 	{
-		Buy, Rent, GoToJail, Tax
+		Buy, Rent, GoToJail, Tax, NoAction
+	}
+
+	public enum OpenGameStateActions
+	{
+		Roll,End,Trade,Build,Sell,Mortgage,LiftMortgage
+	}
+
+	public enum Phase
+	{
+		MainPhase,DiceRolledPhase,BetweenTurnsPhase
 	}
 }
